@@ -130,6 +130,44 @@ def test_categorize_excel_sheets_fuzzy_multi_quarter():
     assert not any(sheet['sheet_name'] == 'EmptySheet' for sheet in result['sheet_data']), "EmptySheet should be skipped."
     print("All multi-quarter tests passed.")
 
+# Helper to create an in-memory Excel file with various UK date formats and RFC 1123/2822 style dates
+def create_test_excel_with_rfc_dates():
+    # Data with RFC 1123/2822 style dates (e.g., 'Mon, 15 Apr 2024 00:00:00 GMT')
+    data = {
+        'Amount': [60, 480, 350],
+        'Date': [
+            'Mon, 15 Apr 2024 00:00:00 GMT',
+            'Wed, 22 May 2024 00:00:00 GMT',
+            'Mon, 01 Apr 2024 00:00:00 GMT'
+        ],
+        'Description': [
+            'Payment to Ryman UK for printer paper',
+            'Payment received from XYZ Ltd. for architectural services',
+            'Office rent payment to WeWork (April 2024)'
+        ],
+        'DisallowableExpenses': [120, 450, 90]
+    }
+    df = pd.DataFrame(data)
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, sheet_name='RFCDateSheet', index=False)
+    output.seek(0)
+    return output
+
+def test_rfc_date_sheet_not_selected_for_future_quarter():
+    # Quarter range that does NOT include the RFC dates (all in 2024, range is Q4 2025)
+    quarter_range = '10/10/2025-5/12/2025'
+    excel_file = create_test_excel_with_rfc_dates()
+    result = categorize_excel_sheets_fuzzy(excel_file, quarter_range)
+    print('Test result for RFC date sheet with future quarter:')
+    for sheet in result['sheet_data']:
+        print(f"Sheet: {sheet['sheet_name']}, Selected: {sheet['selected']}")
+        for row in sheet['mapped_data']:
+            print(row)
+    # None of the rows should be selected for this future quarter
+    assert all(not sheet['selected'] for sheet in result['sheet_data']), "No sheet should be selected for a quarter that does not include the data dates."
+
 if __name__ == "__main__":
     test_categorize_excel_sheets_fuzzy()
     test_categorize_excel_sheets_fuzzy_multi_quarter()
+    test_rfc_date_sheet_not_selected_for_future_quarter()
