@@ -1,0 +1,74 @@
+[
+  {
+    "ClientId": "c17fb484d1b64eb7b1f8b2d6006a3ef8",
+    "DocumentPath": "C:\\Geek2025\\Backend\\DMS\\Uploads\\632049e6-636d-41eb-80b3-f416c9c65077.xlsx",
+    "OriginalFileName": "Q1_2025_Property digital link.xlsx",
+    "UploadDateTime": "2025-07-21T13:23:04.6644297Z",
+    "FileSize": 8333,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "c17fb484d1b64eb7b1f8b2d6006a3ef8",
+    "DocumentPath": "C:\\Geek2025\\Backend\\DMS\\Uploads\\a83ba680-01f7-492c-aec0-e15ff2f7ba53.xlsx",
+    "OriginalFileName": "VCC_Usecase2025.xlsx",
+    "UploadDateTime": "2025-07-21T13:25:27.253402Z",
+    "FileSize": 9503,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "c2",
+    "DocumentPath": "C:\\Geek2025\\Backend\\DMS\\Uploads\\a32aabc0-40b5-4f39-ac0e-854f4000d58b.xlsx",
+    "OriginalFileName": "Q1_2025_Property digital link.xlsx",
+    "UploadDateTime": "2025-07-22T06:22:14.3706383Z",
+    "FileSize": 8333,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "c17fb484d1b64eb7b1f8b2d6006a3ef8",
+    "DocumentPath": "C:\\Geek2025\\Backend\\DMS\\Uploads\\d1cdc0a2-3753-4951-9b73-186f09aefdcb.xlsx",
+    "OriginalFileName": "Q1_2025_Property digital link.xlsx",
+    "UploadDateTime": "2025-07-22T06:43:07.6090658Z",
+    "FileSize": 8333,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "c3",
+    "DocumentPath": "C:\\Geek2025\\Backend\\DMS\\Uploads\\a8e21dc8-265a-4099-a83f-b7640607adf9.xlsx",
+    "OriginalFileName": "VCC_Usecase2025.xlsx",
+    "UploadDateTime": "2025-07-22T06:43:16.6102472Z",
+    "FileSize": 9503,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "c17fb484d1b64eb7b1f8b2d6006a3ef8",
+    "DocumentPath": "C:\\Geek2025\\Backend\\DMS\\Uploads\\cbba0996-0f81-4400-b548-063a24907220.xlsx",
+    "OriginalFileName": "VCC_Usecase2025.xlsx",
+    "UploadDateTime": "2025-07-22T06:43:52.8149659Z",
+    "FileSize": 9503,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "c4",
+    "DocumentPath": "C:\\Geek2025\\Backend\\DMS\\Uploads\\0971cf0f-749b-4336-b189-32ed91f4be8b.xlsx",
+    "OriginalFileName": "VCC_Usecase2025.xlsx",
+    "UploadDateTime": "2025-07-22T06:43:52.9376355Z",
+    "FileSize": 9503,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "1234",
+    "DocumentPath": "C:\\Projects\\GeekSprint2025\\Backend\\DMS\\Uploads\\8957b26f-c13c-4681-90ef-939bb115e7e7.xlsx",
+    "OriginalFileName": "Architecture.xlsx",
+    "UploadDateTime": "2025-07-22T09:33:43.3276057Z",
+    "FileSize": 9503,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "c17fb484d1b64eb7b1f8b2d6006a3ef8",
+    "DocumentPath": "C:\\Projects\\GeekSprint2025\\Backend\\DMS\\Uploads\\8957b26f-c13c-4681-90ef-939bb115e7e7.xlsx",
+    "OriginalFileName": "Architecture.xlsx",
+    "UploadDateTime": "2025-07-22T09:33:43.3276057Z",
+    "FileSize": 9503,
+    "FileExtension": ".xlsx"
+  }
+]

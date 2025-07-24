@@ -1,0 +1,219 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "DMS",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Document/upload": {
+      "post": {
+        "tags": [
+          "Document"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ContentType": {
+                    "type": "string"
+                  },
+                  "ContentDisposition": {
+                    "type": "string"
+                  },
+                  "Headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Length": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "FileName": {
+                    "type": "string"
+                  },
+                  "clientId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "ContentType": {
+                  "style": "form"
+                },
+                "ContentDisposition": {
+                  "style": "form"
+                },
+                "Headers": {
+                  "style": "form"
+                },
+                "Length": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "FileName": {
+                  "style": "form"
+                },
+                "clientId": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Document/documents": {
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Document/download/{fileName}": {
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Document/delete/{fileName}": {
+      "delete": {
+        "tags": [
+          "Document"
+        ],
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Document/stream": {
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filePath",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Document/stream-by-name": {
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}
