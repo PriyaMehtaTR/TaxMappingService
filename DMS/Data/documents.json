@@ -65,10 +65,26 @@
   },
   {
     "ClientId": "22d99244c8d14adc85d3b2db004d4830",
-    "DocumentPath": "C:\\Projects\\GeekSprint2025\\Backend\\DMS\\Uploads\\8957b26f-c13c-4681-90ef-939bb115e7e7.xlsx",
+    "DocumentPath": "C:\\Projects\\GeekSprint2025\\TaxMappingService\\DMS\\Uploads\\8957b26f-c13c-4681-90ef-939bb115e7e7.xlsx",
     "OriginalFileName": "Architecture.xlsx",
     "UploadDateTime": "2025-07-22T09:33:43.3276057Z",
     "FileSize": 9503,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "22d99244c8d14adc85d3b2db004d4830",
+    "DocumentPath": "C:\\Projects\\GeekSprint2025\\TaxMappingService\\DMS\\Uploads\\949b9b01-40f9-409e-a6c0-fd3bc8154523.xlsx",
+    "OriginalFileName": "E2E Spreadsheet 5.xlsx",
+    "UploadDateTime": "2025-07-24T11:09:12.4890739Z",
+    "FileSize": 31622,
+    "FileExtension": ".xlsx"
+  },
+  {
+    "ClientId": "22d99244c8d14adc85d3b2db004d4830",
+    "DocumentPath": "C:\\Projects\\GeekSprint2025\\TaxMappingService\\DMS\\Uploads\\8324ae12-b0f1-43c6-9081-ab4f89153c03.xlsx",
+    "OriginalFileName": "Q1_2025_Property digital link (1).xlsx",
+    "UploadDateTime": "2025-07-24T11:46:03.4456332Z",
+    "FileSize": 9595,
     "FileExtension": ".xlsx"
   }
 ]
