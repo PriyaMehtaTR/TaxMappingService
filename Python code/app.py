@@ -1,44 +1,24 @@
+# ----------------------
+# Imports and App Setup
+# ----------------------
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import os
 import pandas as pd
+import urllib3
 from werkzeug.utils import secure_filename
 from rapidfuzz import process, fuzz
 import re
 from const.field_keywords import FIELD_KEYWORDS
-import requests
-from io import BytesIO
-import urllib3
 
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:8501", "http://localhost:8889"], supports_credentials=True)
-app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # Disable SSL warnings for development
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Ensure the upload folder exists
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
-
 # ----------------------
-# API Endpoint
+# API Endpoints
 # ----------------------
-@app.route('/getData', methods=['POST'])
-def get_data():
-    """
-    Endpoint to receive an uploaded Excel file, process all sheets,
-    and return mapped data for Amount, Date, Description columns.
-    """
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-    # Use fuzzy categorization for all sheets
-    result = categorize_excel_sheets_fuzzy(file)
-    return jsonify(result)
-
 
 @app.route('/getSheetData', methods=['GET'])
 def get_sheet_data():
@@ -49,21 +29,14 @@ def get_sheet_data():
     """
     import requests
     from io import BytesIO
-
     client_id = request.args.get('clientId')
     filename = request.args.get('filename')
     current_period = request.args.get('currentPeriod')  # e.g. '6/4/2025-5/7/2025'
     if not client_id or not filename or not current_period:
         return jsonify({'error': 'Missing clientId, filename, or currentPeriod'}), 400
-
-    # Call the external API to get the file stream
     api_url = f"http://localhost:5119/api/Document/stream?clientId={client_id}&filePath={filename}"
-
-    # Make request with SSL verification disabled for self-signed certificates
-
     try:
-        resp = requests.get(api_url, verify=False, timeout=30)
-        #resp = requests.get(api_url)
+        resp = requests.get(api_url)
         if resp.status_code != 200:
             return jsonify({'error': f'Failed to fetch file from external API: {resp.text}'}), 502
         file_stream = BytesIO(resp.content)
@@ -75,6 +48,7 @@ def get_sheet_data():
 # ----------------------
 # Utility Methods
 # ----------------------
+# These are helper functions for fuzzy column mapping and Excel processing.
 
 def best_column_match(col_name, field_keywords):
     """
@@ -122,7 +96,7 @@ def map_columns(df):
 
 def categorize_excel_sheets_fuzzy(file, quarter_date_range=None):
     """
-    Process all sheets in the uploaded Excel file, mapping columns for each sheet.
+    Process all sheets in the given Excel file, mapping columns for each sheet.
     Returns a list of dicts with sheet_name, column_mapping, mapped_data, columns, and selected for each sheet.
     Skips sheets that are empty, all null, or have only header and no data.
     The 'selected' flag is True if any row in mapped_data has a Date in the specified quarter range.
@@ -133,11 +107,13 @@ def categorize_excel_sheets_fuzzy(file, quarter_date_range=None):
     from dateutil import parser as date_parser
     # Use provided quarter_date_range or fallback to default
     QUARTER_DATE_RANGE = quarter_date_range or '6/4/2025-5/7/2025'
+
     def parse_quarter_range(quarter_range_str):
         start_str, end_str = quarter_range_str.split('-')
         start_date = date_parser.parse(start_str.strip(), dayfirst=True)
         end_date = date_parser.parse(end_str.strip(), dayfirst=True)
         return start_date, end_date
+
     start_date, end_date = parse_quarter_range(QUARTER_DATE_RANGE)
     xl = pd.ExcelFile(file)
     sheet_data_list = []
@@ -183,7 +159,6 @@ def preprocess_col_name(col_name):
     # Remove extra spaces
     col_name = re.sub(r'\s+', ' ', col_name).strip()
     return col_name
-
 
 if __name__ == '__main__':
     app.run(debug=True)
