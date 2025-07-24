@@ -4,17 +4,23 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
-import urllib3
 from werkzeug.utils import secure_filename
 from rapidfuzz import process, fuzz
 import re
 from const.field_keywords import FIELD_KEYWORDS
+import joblib
+import os
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:8501", "http://localhost:8889"], supports_credentials=True)
+CORS(app, origins=["http://localhost:8501", "*"])
 
-# Disable SSL warnings for development
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+MODEL_DIR = os.path.join(os.path.dirname(__file__), "saved_model")
+MODEL_PATH = os.path.join(MODEL_DIR, "ultra_high_accuracy_classifier.joblib")
+try:
+    model = joblib.load(MODEL_PATH)
+except Exception as e:
+    model = None
+    print(f"Error loading model: {e}")
 
 # ----------------------
 # API Endpoints
@@ -44,6 +50,57 @@ def get_sheet_data():
         return jsonify(result)
     except Exception as e:
         return jsonify({'error': f'Exception occurred: {str(e)}'}), 500
+
+@app.route('/getData', methods=['POST'])
+def get_data():
+    """
+    Endpoint to receive an uploaded Excel file, process all sheets,
+    and return mapped data for Amount, Date, Description columns.
+    """
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    result = categorize_excel_sheets_fuzzy(file)
+    return jsonify(result)
+
+@app.route('/getMappedCategory', methods=['POST'])
+def get_mapped_category():
+    """
+    Endpoint to receive an array of objects with fields: transactionDescription, id.
+    Returns the same array with predicted taxCategories using the model.
+    Example input:
+    [
+        {
+            "transactionDescription": "Some description",
+            "id": 123
+        },
+        ...
+    ]
+    """
+    if not request.is_json:
+        return jsonify({'error': 'Request body must be JSON'}), 400
+    data = request.get_json()
+    if not isinstance(data, list):
+        return jsonify({'error': 'Input must be a list of objects'}), 400
+    if model is None:
+        return jsonify({'error': 'Model is not available. Please check server logs.'}), 503
+    result = []
+    for item in data:
+        if not all(k in item for k in ['transactionDescription', 'id']):
+            return jsonify({'error': 'Each object must contain transactionDescription and id'}), 400
+        description_text = item['transactionDescription']
+        try:
+            description_to_predict = [str(description_text)]
+            prediction = model.predict(description_to_predict)
+            predicted_category = prediction[0]
+            item['taxCategories'] = predicted_category
+        except Exception as e:
+            item['taxCategories'] = None
+            item['error'] = f'Prediction failed: {str(e)}'
+        result.append(item)
+    return jsonify(result)
 
 # ----------------------
 # Utility Methods
