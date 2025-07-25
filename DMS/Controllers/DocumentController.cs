@@ -328,7 +328,7 @@ namespace DMS.Controllers
                     return BadRequest("FilePath is required.");
                 }
 
-                filePath = "C:\\Projects\\GeekSprint2025\\Backend\\DMS\\Uploads\\" + filePath;
+                filePath = Path.Combine(_uploadsPath, filePath.TrimStart('\\', '/'));
                 _logger.LogInformation($"Streaming document for client: {clientId}, filePath: {filePath}");
 
                 // Find the document in JSON file to verify it belongs to the client

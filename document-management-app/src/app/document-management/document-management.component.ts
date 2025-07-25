@@ -30,10 +30,10 @@ interface Document {
         </div>
         <div class="user-info">
           <div class="user-text">
-            <span class="user-name">Yasmine Nielsen</span>
+            <span class="user-name">Kay Draper</span>
             <span class="user-details">Firm TI, MTD/SA</span>
           </div>
-          <div class="user-dropdown">YASMINE NIELSEN ▼</div>
+          <div class="user-dropdown">KAY DRAPER ▼</div>
         </div>
       </div>
 
@@ -58,8 +58,8 @@ interface Document {
           <!-- Folder View -->
           <div class="folder-tree" *ngIf="currentView === 'folder'">
             <div class="folder-item-with-icon">
-              <span class="folder-icon">�</span>
-              <span class="folder-name">Nielsen, Yasmine</span>
+              <span class="folder-icon"> </span>
+              <span class="folder-name">Kay Draper</span>
             </div>
           </div>
           
@@ -811,7 +811,7 @@ export class DocumentManagementComponent implements OnInit {
   }
 
   clients = [
-    { id: '22d99244c8d14adc85d3b2db004d4830', name: 'Nielsen, Yasmine' },
+    { id: '22d99244c8d14adc85d3b2db004d4830', name: 'Kay Draper' },
     { id: '5678', name: 'Smith, John' },
     { id: '9012', name: 'Johnson, Maria' }
   ];
