@@ -56,12 +56,32 @@ def get_data():
     """
     Endpoint to receive an uploaded Excel file, process all sheets,
     and return mapped data for Amount, Date, Description columns.
+    Also uploads the file to an external API with clientId.
     """
+    print('request.files:', request.files)
+    print('request.form:', request.form)
+    print('request.headers:', request.headers)
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
     file = request.files['file']
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
+    client_id = request.form.get('clientId')
+    if not client_id:
+        return jsonify({'error': 'Missing clientId in form data'}), 400
+    # Upload the file to the external API
+    import requests
+    files = {'file': (file.filename, file.stream, file.mimetype)}
+    data = {'clientId': client_id}
+    upload_url = 'http://localhost:5119/api/Document/upload'
+    try:
+        upload_resp = requests.post(upload_url, files=files, data=data)
+        if upload_resp.status_code != 200:
+            return jsonify({'error': f'Failed to upload file to external API: {upload_resp.text}'}), 502
+    except Exception as e:
+        return jsonify({'error': f'Exception during upload: {str(e)}'}), 500
+    # Process the file as before
+    print('file', file)
     result = categorize_excel_sheets_fuzzy(file)
     return jsonify(result)
 
