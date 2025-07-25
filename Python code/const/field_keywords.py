@@ -27,7 +27,21 @@ FIELD_KEYWORDS = {
         'particulars',
         'info',
         'remarks',
-        'summary'
+        'summary',
+        'description',
+        'desc',
+        'details',
+        'narration',
+        'particulars',
+        'info',
+        'remarks',
+        'summary',
+        'Txn_desc',
+        'Tran. desc',
+        'Details',
+        'Trans desc',
+        'Trans_desc',
+        'Transaction Descriptions'
     ],
     'DisallowableExpenses': [
         'disallowable expenses',
